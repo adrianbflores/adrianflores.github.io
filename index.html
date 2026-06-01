@@ -1131,7 +1131,18 @@ const counterObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.3 });
 
-document.querySelectorAll('.metric-card').forEach(card => counterObserver.observe(card));
+const metricSection = document.getElementById('metrics');
+if (metricSection) {
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.counter').forEach(c => animateCounter(c));
+        sectionObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  sectionObserver.observe(metricSection);
+}
 </script>
 </body>
 </html>
